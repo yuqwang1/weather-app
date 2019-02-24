@@ -14,21 +14,39 @@ class App extends React.Component {
     error: undefined
   }
 
-  fetchWeather = async (e) => {
+
+  fetchWeather = (e) => {
     const CITY = e.target.elements.city.value;
     const COUNTRY = e.target.elements.country.value;
     e.preventDefault();
-    const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${CITY},${COUNTRY}&appid=${API_KEY}&units=metric`);
-    const data = await api_call.json();
-    this.setState({
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${CITY},${COUNTRY}&appid=${API_KEY}&units=metric`)
+    .then(res => res.json())
+    .then(data => this.setState({
       temperature: data.main.temp,
       city: data.name,
       country: data.sys.country,
       humidity: data.main.humidity,
       description: data.weather[0].description,
       error: ""
-    })
+      })
+    )
   }
+  // fetchWeather = async (e) => {
+  //   const CITY = e.target.elements.city.value;
+  //   const COUNTRY = e.target.elements.country.value;
+  //   e.preventDefault();
+  //   const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${CITY},${COUNTRY}&appid=${API_KEY}&units=metric`);
+  //   const data = await api_call.json();
+  //   this.setState({
+  //     temperature: data.main.temp,
+  //     city: data.name,
+  //     country: data.sys.country,
+  //     humidity: data.main.humidity,
+  //     description: data.weather[0].description,
+  //     error: ""
+  //   })
+  // }
+
   render() {
     const { temperature, city, country, description, error, humidity } = this.state
     return(
